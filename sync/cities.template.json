@@ -1,0 +1,572 @@
+{
+  "schemaVersion": 1,
+  "cities": [
+    {
+      "cityId": "istanbul",
+      "name": "İstanbul",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "ankara",
+      "name": "Ankara",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "izmir",
+      "name": "İzmir",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "bursa",
+      "name": "Bursa",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "antalya",
+      "name": "Antalya",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "adana",
+      "name": "Adana",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "konya",
+      "name": "Konya",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "gaziantep",
+      "name": "Gaziantep",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "mersin",
+      "name": "Mersin",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "trabzon",
+      "name": "Trabzon",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "samsun",
+      "name": "Samsun",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "eskisehir",
+      "name": "Eskişehir",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "kayseri",
+      "name": "Kayseri",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "diyarbakir",
+      "name": "Diyarbakır",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "erzurum",
+      "name": "Erzurum",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "edirne",
+      "name": "Edirne",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "adiyaman",
+      "name": "Adıyaman",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "afyonkarahisar",
+      "name": "Afyonkarahisar",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "agri",
+      "name": "Ağrı",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "amasya",
+      "name": "Amasya",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "artvin",
+      "name": "Artvin",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "aydin",
+      "name": "Aydın",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "balikesir",
+      "name": "Balıkesir",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "bilecik",
+      "name": "Bilecik",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "bingol",
+      "name": "Bingöl",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "bitlis",
+      "name": "Bitlis",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "bolu",
+      "name": "Bolu",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "burdur",
+      "name": "Burdur",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "canakkale",
+      "name": "Çanakkale",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "cankiri",
+      "name": "Çankırı",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "corum",
+      "name": "Çorum",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "denizli",
+      "name": "Denizli",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "elazig",
+      "name": "Elazığ",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "erzincan",
+      "name": "Erzincan",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "giresun",
+      "name": "Giresun",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "gumushane",
+      "name": "Gümüşhane",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "hakkari",
+      "name": "Hakkari",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "hatay",
+      "name": "Hatay",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "isparta",
+      "name": "Isparta",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "kars",
+      "name": "Kars",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "kastamonu",
+      "name": "Kastamonu",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "kirklareli",
+      "name": "Kırklareli",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "kirsehir",
+      "name": "Kırşehir",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "kocaeli",
+      "name": "Kocaeli",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "kutahya",
+      "name": "Kütahya",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "malatya",
+      "name": "Malatya",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "manisa",
+      "name": "Manisa",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "kahramanmaras",
+      "name": "Kahramanmaraş",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "mardin",
+      "name": "Mardin",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "mugla",
+      "name": "Muğla",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "mus",
+      "name": "Muş",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "nevsehir",
+      "name": "Nevşehir",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "nigde",
+      "name": "Niğde",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "ordu",
+      "name": "Ordu",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "rize",
+      "name": "Rize",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "sakarya",
+      "name": "Sakarya",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "siirt",
+      "name": "Siirt",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "sinop",
+      "name": "Sinop",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "sivas",
+      "name": "Sivas",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "tekirdag",
+      "name": "Tekirdağ",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "tokat",
+      "name": "Tokat",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "tunceli",
+      "name": "Tunceli",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "sanliurfa",
+      "name": "Şanlıurfa",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "usak",
+      "name": "Uşak",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "van",
+      "name": "Van",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "yozgat",
+      "name": "Yozgat",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "zonguldak",
+      "name": "Zonguldak",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "aksaray",
+      "name": "Aksaray",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "bayburt",
+      "name": "Bayburt",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "karaman",
+      "name": "Karaman",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "kirikkale",
+      "name": "Kırıkkale",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "batman",
+      "name": "Batman",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "sirnak",
+      "name": "Şırnak",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "bartin",
+      "name": "Bartın",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "ardahan",
+      "name": "Ardahan",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "igdir",
+      "name": "Iğdır",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "yalova",
+      "name": "Yalova",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "karabuk",
+      "name": "Karabük",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "kilis",
+      "name": "Kilis",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "osmaniye",
+      "name": "Osmaniye",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    },
+    {
+      "cityId": "duzce",
+      "name": "Düzce",
+      "officialStateId": null,
+      "officialCityId": null,
+      "reviewed": false
+    }
+  ]
+}

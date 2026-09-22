@@ -1,0 +1,40 @@
+name: Refresh official prayer calendars
+on:
+  schedule:
+    - cron: '23 3 * * *'
+  workflow_dispatch:
+    inputs:
+      force_city:
+        description: 'Optional app city ID to refresh immediately; still counts against quota'
+        required: false
+        default: ''
+        type: string
+permissions:
+  contents: write
+concurrency:
+  group: official-calendar-sync
+  cancel-in-progress: false
+jobs:
+  refresh:
+    if: github.repository == 'MustafaGokbasi/vaktinde-prayer-data' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+      - name: Verify synchronization rules
+        run: node --test sync/*.test.mjs
+      - name: Configure commit identity
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Verify account and refresh stale calendars
+        env:
+          DIYANET_EMAIL: ${{ secrets.DIYANET_EMAIL }}
+          DIYANET_PASSWORD: ${{ secrets.DIYANET_PASSWORD }}
+          FORCE_CITY: ${{ inputs.force_city }}
+        run: node sync/github-runner.mjs

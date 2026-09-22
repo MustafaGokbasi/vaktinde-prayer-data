@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 2,
+  "adapter": "awqat-2026-09",
+  "reviewed": true,
+  "includesAllApplicableLimits": true,
+  "role": "Developer",
+  "buckets": [
+    {
+      "controllerName": "DailyContent",
+      "resultName": "Get",
+      "period": "Daily",
+      "benefit": 100
+    },
+    {
+      "controllerName": "Place",
+      "resultName": "City",
+      "period": "Daily",
+      "benefit": 100
+    },
+    {
+      "controllerName": "Place",
+      "resultName": "CityDetail",
+      "period": "Daily",
+      "benefit": 100
+    },
+    {
+      "controllerName": "Place",
+      "resultName": "Country",
+      "period": "Daily",
+      "benefit": 100
+    },
+    {
+      "controllerName": "Place",
+      "resultName": "GetAllCities",
+      "period": "Daily",
+      "benefit": 100
+    },
+    {
+      "controllerName": "Place",
+      "resultName": "GetAllStates",
+      "period": "Daily",
+      "benefit": 100
+    },
+    {
+      "controllerName": "Place",
+      "resultName": "State",
+      "period": "Daily",
+      "benefit": 100
+    },
+    {
+      "controllerName": "PrayerTime",
+      "resultName": "PrayerTimeDaily",
+      "period": "Daily",
+      "benefit": 100
+    },
+    {
+      "controllerName": "PrayerTime",
+      "resultName": "PrayerTimeDateRange",
+      "period": "Daily",
+      "benefit": 100
+    },
+    {
+      "controllerName": "PrayerTime",
+      "resultName": "PrayerTimeEid",
+      "period": "Daily",
+      "benefit": 100
+    },
+    {
+      "controllerName": "PrayerTime",
+      "resultName": "PrayerTimeMonthly",
+      "period": "Daily",
+      "benefit": 100
+    },
+    {
+      "controllerName": "PrayerTime",
+      "resultName": "PrayerTimeRamadan",
+      "period": "Daily",
+      "benefit": 100
+    },
+    {
+      "controllerName": "PrayerTime",
+      "resultName": "PrayerTimeWeekly",
+      "period": "Daily",
+      "benefit": 100
+    }
+  ]
+}
