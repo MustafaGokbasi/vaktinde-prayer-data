@@ -24,6 +24,20 @@ Güncelleme hataları Actions sayfasından ve hesap sahibinin GitHub bildirimler
 
 Başlangıç verisi 22 Eylül–31 Aralık 2026 aralığıdır. Gelecek tarihler sonraki başarılı yenilemelerle eklenir. Yayınlanan geçmiş sürümler Git geçmişinde korunur.
 
+## Güvenli hata tanılaması
+
+Başarısız güncellemeler stderr'e yalnız üç alan içeren bir JSON satırı yazar:
+`failedStage` (başarısız işlem aşaması), `errorCode` (yerel izin listesindeki hata kodu)
+ve `httpStatus` (varsa doğrulanmış sayısal HTTP durumu; yoksa `null`).
+Git işlem çıkış kodu HTTP durumu olarak kullanılmaz. Ham hata metni/yığını, URL,
+başlıklar, istek/yanıt gövdeleri ve kimlik bilgileri yazılmaz.
+
+Örneğin `initial_quota_request / ACCESS_DENIED / 403` hesap erişimi isteğini,
+`quota_validation / STAGE_FAILED / null` kota doğrulamasının durduğunu gösterir.
+`STAGE_FAILED` tek başına ayrıntılı kök neden iddiası değildir. Bir yenileme hatasından
+sonra geçerli takvimleri yayımlama da başarısız olursa iki güvenli kayıt yazılır;
+ilk hata kaybolmaz. İş yine 1 çıkış koduyla durur, otomatik istek tekrarı yapılmaz.
+
 ## Kontroller
 
 Node.js 24, haricî çalışma zamanı paketi gerekmez.
