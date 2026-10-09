@@ -16,6 +16,44 @@ const codes = new Set([
 ]);
 const isObject = value => value !== null && (typeof value === 'object' || typeof value === 'function');
 
+const quotaCodes = new Set([
+  'QUOTA_POLICY_UNREVIEWED',
+  'QUOTA_ENVELOPE_FIELDS',
+  'QUOTA_RESPONSE_UNSUCCESSFUL',
+  'QUOTA_DATA_FIELDS',
+  'QUOTA_ROLE_CHANGED',
+  'QUOTA_SNAPSHOT_INVALID',
+  'QUOTA_SNAPSHOT_OUT_OF_WINDOW',
+  'QUOTA_POLICY_BUCKETS_INVALID',
+  'QUOTA_POLICY_BUCKET_DUPLICATE',
+  'QUOTA_ENDPOINT_UNMAPPED',
+  'QUOTA_PERIOD_LIST_INVALID',
+  'QUOTA_BUCKET_FIELDS',
+  'QUOTA_BUCKET_DUPLICATE',
+  'QUOTA_BUCKET_UNREVIEWED',
+  'QUOTA_BUCKET_PERIOD_MISMATCH',
+  'QUOTA_BENEFIT_CHANGED',
+  'QUOTA_BUCKET_COUNTER_INVALID',
+  'QUOTA_PERIOD_WINDOW_INVALID',
+  'QUOTA_LINES_INVALID',
+  'QUOTA_AGGREGATE_EXHAUSTED',
+  'QUOTA_LINE_FIELDS',
+  'QUOTA_PARAMETER_INVALID',
+  'QUOTA_PARAMETER_DUPLICATE',
+  'QUOTA_LINE_COUNTER_INVALID',
+  'QUOTA_PLACE_EXHAUSTED',
+  'QUOTA_BUCKET_COVERAGE_MISSING',
+  'QUOTA_ENDPOINT_COVERAGE_MISSING',
+]);
+
+// Validation failures carry only a locally chosen rule name, never payload data.
+export function quotaFailure(code) {
+  const errorCode = quotaCodes.has(code) ? code : 'UNEXPECTED_FAILURE';
+  const error = new Error(errorCode);
+  metadata.set(error, { errorCode, httpStatus: null });
+  return error;
+}
+
 export function requestFailure(code, status) {
   const errorCode = codes.has(code) ? code : 'UNEXPECTED_FAILURE';
   const error = new Error(errorCode);
