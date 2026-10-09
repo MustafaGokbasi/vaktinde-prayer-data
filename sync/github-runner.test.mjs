@@ -17,7 +17,7 @@ async function fixture(t, scenario) {
   await cp(new URL('.', import.meta.url), join(root, 'sync'), { recursive: true });
   for (const directory of ['config', 'state', 'public/v1/prayer-times']) await mkdir(join(root, directory), { recursive: true });
   const cities = Array.from({ length: 81 }, (_, i) => ({ cityId: `city${i}`, officialCityId: `${i + 1}`, officialStateId: '1', reviewed: true }));
-  for (const [path, value] of [['config/cities.json', { schemaVersion: 1, cities }], ['config/quota-policy.json', policy], ['state/ledger.json', { schemaVersion: 1, usage: {} }], ['public/v1/prayer-times/city0.json', { old: true }]]) await writeFile(join(root, path), JSON.stringify(value));
+  for (const [path, value] of [['config/cities.json', { schemaVersion: 1, cities }], ['config/quota-policy.json', scenario === 'live_quota' ? { schemaVersion: 2, adapter: 'awqat-2026-09', reviewed: true, includesAllApplicableLimits: true, role: 'Developer', buckets: [{ controllerName: 'PrayerTime', resultName: 'PrayerTimeDateRange', period: 'Daily', benefit: 100 }] } : policy], ['state/ledger.json', { schemaVersion: 1, usage: {} }], ['public/v1/prayer-times/city0.json', { old: true }]]) await writeFile(join(root, path), JSON.stringify(value));
   await writeFile(join(root, 'preload.mjs'), `
     import childProcess from 'node:child_process';
     import { syncBuiltinESMExports } from 'node:module';
@@ -39,6 +39,7 @@ async function fixture(t, scenario) {
       appendFileSync('calls.jsonl', JSON.stringify({ request: url.includes('Quota') ? 'quota' : 'calendar' }) + '\\n');
       if (url.includes('Quota')) {
         quotaCalls++;
+        if (scenario === 'live_quota') return Response.json({ success: true, message: secret, data: { date: new Date().toISOString(), role: secret, daily: [], weekly: [], monthly: [], yearly: [] } });
         if (scenario === 'initial_http') return new Response(secret, { status: 403 });
         if (scenario === 'initial_quota' || (scenario === 'city_quota' && quotaCalls === 2)) return Response.json({ secret });
         return Response.json(${JSON.stringify(quota)});
@@ -63,6 +64,7 @@ test('actual runner reports request, quota, persistence and validation stages wi
     ['checkout', 'checkout_guard', 'STAGE_FAILED', null, 0],
     ['initial_http', 'initial_quota_request', 'ACCESS_DENIED', 403, 0],
     ['initial_quota', 'initial_quota_validation', 'STAGE_FAILED', null, 0],
+    ['live_quota', 'initial_quota_validation', 'QUOTA_ROLE_CHANGED', null, 0],
     ['city_quota', 'quota_validation', 'STAGE_FAILED', null, 0],
     ['persist', 'persist_ledger', 'STAGE_FAILED', null, 0],
     ['calendar', 'calendar_request', 'HTTP_ERROR', 503, 1],
