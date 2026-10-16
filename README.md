@@ -14,7 +14,7 @@ Her dosyada kaynak, son alınma zamanı ve kapsanan tarih aralığı bulunur. Ö
 
 ## Güncelleme
 
-GitHub Actions her gün yaklaşık 06:23 Türkiye saatinde kontrol eder; yedi günden eski veya kapsamı yetersiz dosyaları yeniler. GitHub zamanlanmış işleri geciktirebilir. Ekimden itibaren gelecek yılın sonuna kadar takvim istenir. Kota ve veri yapısı değişirse sistem durur ve son doğrulanmış dosyalar korunur.
+GitHub Actions her gün yaklaşık 06:23 Türkiye saatinde kontrol eder. **Geçici kontrollü geçiş yalnız Antalya'yı etkinleştirir**; diğer 80 şehrin dosyaları korunur. Antalya için bir kalıcı deneme kaydı oluşturulduktan sonra sonraki zamanlanmış/elle başlatılmış işler API'ye çıkmadan durur. İlk denemede yedi günden eski veya kapsamı yetersiz Antalya dosyası yenilenir. GitHub zamanlanmış işleri geciktirebilir. Üretim aralığı Ekimden itibaren gelecek yılın sonuna kadardır; bunun canlı karşılandığı henüz doğrulanmadı. Kota ve veri yapısı değişirse sistem durur ve son doğrulanmış dosyalar korunur.
 
 Diyanet hesabı yalnız Actions Secrets üzerinden `DIYANET_EMAIL` ve `DIYANET_PASSWORD` ile kullanılır. Depoya hiçbir parola, erişim belirteci, uygulama kaynak kodu veya kişisel namaz kaydı konulmaz. İş sadece bu deponun ana dalında zamanlanmış/elle başlatılmış olarak çalışır; dış katkı istekleri iş tetiklemez.
 
@@ -73,8 +73,10 @@ sınırlar: toplam 9 ise sonraki isteğe izin verir, toplam 10 ise başka şehri
 kotası boş görünse bile durur. Bu muhafazakâr kısıt değiştirilmemiştir;
 81 şehrin yenilenmesini aynı dönemde engelleyebilir.
 
-`FORCE_CITY` yalnız yenilemeyi zorlar; eski diğer şehirleri döngüden çıkarmaz.
-Tek şehir denemesi için hazırlanan ayrı modül `sync/antalya-probe.mjs` içindeki
+Genel `runRefresh` fonksiyonunda `FORCE_CITY` yalnız yenilemeyi zorlar; tek başına
+şehir filtresi değildir. Üretim runner'ı artık aşağıdaki sabit Antalya listesiyle
+çağırır; bu kısıt `FORCE_CITY` davranışından bağımsızdır. İki günlük ayrı tarayıcı
+denemesi için hazırlanan modül `sync/antalya-probe.mjs` içindeki
 `runAntalyaProbe({ root, client, persistAccountLedger, now })` fonksiyonudur.
 Modül içe aktarıldığında veya doğrudan çalıştırıldığında API çağrısı yapmaz;
 kimlik doğrulama, canlı CLI ve workflow bağlantısı içermez. Bu aşamada yalnız
@@ -136,5 +138,33 @@ ayrı kapsam incelemesi gerektirir.
 
 Bu komutlar gerçek test tamamlandı iddiası üretmez. Bu hazırlık aşamasında
 canlı çağrı yapılmadı; yalnız sentetik girdilerle çevrimdışı test edildi.
+
+### Üretimde geçici yalnız Antalya geçişi
+
+`sync/github-runner.mjs` bütün 81 eşleştirmeyi doğruladıktan sonra yalnız
+`antalya / 9225 / 507` kaydını işleme geçirir. Zamanlanmış işte seçim boş olabilir;
+elle çalıştırmada yalnız boş seçim veya `antalya` kabul edilir. Diğer şehir,
+wildcard, çoklu ya da değişmiş eşleştirme hesap isteğinden önce reddedilir.
+Kısıtı genişleten ortam değişkeni veya `FORCE_CITY` istisnası yoktur.
+
+Çağrı öncesinde `state/antalya-rollout-attempt.json` özel oluşturma ile yazılıp
+diske senkronize edilir. Güncellenmiş `state/ledger.json` ve deneme kaydı aynı
+Git commitinde kanonik `main` dalına kaydedilip push tamamlanmadan DateRange
+yapılmaz. En fazla bir Antalya DateRange denemesi vardır; hatada/belirsizlikte
+rezervasyon geri alınmaz. Kayıt zaten varsa, içeriği bozuk olsa bile, sonraki iş
+auth/API çağrısı yapmadan `already_reserved` sonucu verir. Bu kayıt ve sayaç
+silinmemeli/sıfırlanmamalıdır. Başarısız push çağrıyı engeller; üretim workflow'unun
+mevcut ortak concurrency grubu ve kanonik push çakışma koruması korunur.
+
+Başarılı yanıt yalnız Antalya'nın üretim dosyasını güncelleyebilir; diğer 80 dosya
+işleme alınmaz. Üretim isteği mevcut `allowedWindow()` aralığını kullanır:
+16 Ekim 2026 itibarıyla 16 Ekim 2026–31 Aralık 2027. Tam aralık doğrulanamazsa
+eski Antalya dosyası korunur, deneme kaydı kalır; ikinci otomatik deneme yapılmaz.
+İki günlük tarayıcı kontrolü bu geniş üretim aralığını kanıtlamaz.
+
+Bu kısıtın kaldırılması ve 81 şehre yayılma ayrı kod değişikliği/inceleme
+gerektirir. Bu PR'de canlı auth, kanonik rezervasyon push'u, üretim DateRange
+yanıtı ve 2027 kapsamı birlikte doğrulanmış değildir. Kodun eklenmesi bu
+adımların çalıştırıldığı anlamına gelmez; birleştirme veya workflow başlatılmadı.
 
 Veriler Diyanet kaynaklıdır; bu depo Diyanet adına yeniden lisans vermez. Dağıtım kapsamı ilgili kurumun kullanım koşullarına tabidir.
