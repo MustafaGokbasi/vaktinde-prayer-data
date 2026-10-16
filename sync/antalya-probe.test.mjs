@@ -155,3 +155,14 @@ test('invalid calendar result keeps production files and blocks retry after a co
   assert.equal((await readJson(join(f.root, 'canonical-ledger.json'))).usage['2026-10:9225'], 3);
   await assert.rejects(runProbe(options)); await f.unchanged();
 });
+test('quota that becomes stale during canonical persistence blocks DateRange and keeps reservation', async t => {
+  const f = await setup(t);
+  const options = { ...f.options, persistAccountLedger: async next => {
+    await f.options.persistAccountLedger(next);
+    t.mock.timers.setTime(Date.parse(snapshotDate) + 6 * 60_000);
+  } };
+  await assert.rejects(runProbe(options), /QUOTA_SNAPSHOT_OUT_OF_WINDOW/);
+  assert.equal(f.calls.filter(c => c.method === 'POST').length, 0);
+  assert.equal((await readJson(join(f.root, 'canonical-ledger.json'))).usage['2026-10:9225'], 3);
+  await assert.rejects(runProbe(options)); await f.unchanged();
+});

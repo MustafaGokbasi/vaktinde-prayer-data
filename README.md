@@ -104,4 +104,37 @@ bağlantısı açıkça sağlanmalıdır. Bu hazırlık yeni erişim oluşturmaz
 zamanlamasını değiştirmez veya canlı deneme yetkisi vermez. Farklı tarih aralığı
 ayrı kapsam incelemesi gerektirir.
 
+### Ayrı tarayıcı göreviyle en küçük doğrulama yolu
+
+1. Hesap sahibi mevcut resmî tarayıcı oturumunu kullanır. Oturum yetkisiz/sona
+   ermişse giriş ve Swagger yetkilendirmesini kendisi tamamlar; parola/token
+   sohbete, dosyaya veya bu komutlara aktarılmaz. Giriş yanıtı/Authorize ekranı
+   kapatılıp yalnız sır içermeyen kota yanıtı paylaşılır.
+2. Güncel kanonik ledger ve eşzamanlı iş durumu kontrol edilir. Tarayıcıdan alınan
+   taze Quota/My yanıtının **yalnız JSON gövdesi** çevrimdışı kontrol edilir:
+   `node sync/antalya-browser-check.mjs quota < /path/to/quota-response.json`.
+   Başarılı kontrol kota rezervasyonu oluşturmaz veya çağrı yapma izni yerine geçmez.
+3. Kalıcı tek deneme kaydı ve aylık Antalya rezervasyonu kanonik depoda çağrıdan
+   önce doğrulanır. Mevcut modül kullanılacaksa gerçek `persistAccountLedger`
+   bağlantısı gerekir. Tarayıcıda ayrı yürütülen bir POST, bu modülün otomatik
+   kilit/rezervasyon güvencesinden yararlanmaz; koordinatör bunları ayrıca
+   kanıtlamadan tarayıcı isteği gönderemez. Bu dalda kanonik kayıt bağlantısı
+   veya tarayıcı köprüsü oluşturulmamıştır.
+4. Kota kontrolü hâlâ beş dakikalık pencere içindeyken **bir kez**
+   `POST /api/PrayerTime/DateRange` gönderilir:
+   `{"cityId":9225,"startDate":"2026-10-16T00:00:00","endDate":"2026-10-17T00:00:00"}`.
+   Ana üretim workflow'u / `force_city=antalya` bu deneme için kullanılmaz.
+   Gecikme, hata veya belirsizlikte durulur; yeni sorgu/istek otomatik tekrarlanmaz.
+   Modül, rezervasyon sonrasında da aynı kota yanıtını DateRange'den hemen önce
+   yeniden doğrular; yeni bir Quota/My isteği yapmaz.
+5. Dönen yanıtın yalnız JSON gövdesi yerelde kontrol edilir:
+   `node sync/antalya-browser-check.mjs calendar < /path/to/antalya-response.json`.
+   Komut iki günlük kapsamı ve beş vaktin yapısını doğrular; ağa çıkmaz ve
+   üretim takvimi/ledger yazmaz. Yanıt yalnız vakitlerden oluşuyorsa şehir
+   kimliğini tek başına kanıtlayamaz (`requestIdentityVerified:false`); tarayıcı
+   isteğinin `9225` gövdesiyle yapıldığı ayrıca kanıtlanmalıdır.
+
+Bu komutlar gerçek test tamamlandı iddiası üretmez. Bu hazırlık aşamasında
+canlı çağrı yapılmadı; yalnız sentetik girdilerle çevrimdışı test edildi.
+
 Veriler Diyanet kaynaklıdır; bu depo Diyanet adına yeniden lisans vermez. Dağıtım kapsamı ilgili kurumun kullanım koşullarına tabidir.

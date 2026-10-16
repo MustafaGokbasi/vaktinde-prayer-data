@@ -2,10 +2,12 @@
 // A future explicitly authorized caller must inject a client with NO network retries.
 import { open } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
-import { atomicJson, invariant, readJson, validateMapping } from './core.mjs';
+import { atomicJson, checkRemoteQuota, invariant, readJson, validateMapping } from './core.mjs';
+import { withStage } from './diagnostics.mjs';
 import { runRefresh } from './automation.mjs';
 
-const window = Object.freeze({ start: '2026-10-16', end: '2026-10-17' });
+export const ANTALYA_PROBE_WINDOW = Object.freeze({ start: '2026-10-16', end: '2026-10-17' });
+const window = ANTALYA_PROBE_WINDOW;
 async function syncPath(path) {
   const handle = await open(path, 'r');
   try { await handle.sync(); } finally { await handle.close(); }
@@ -37,12 +39,18 @@ export async function runAntalyaProbe({ root, client, persistAccountLedger, now 
     await attempt.sync();
   } finally { await attempt.close(); }
   await syncPath(dirname(attemptPath));
-  let sent = false;
+  let sent = false, snapshot;
   return runRefresh({ cities: [city], window, now, forceCity: 'antalya', policy, ledger,
     publicRoot: join(root, 'probe-results/antalya-2026-10-16'),
     client: async (method, path, body) => {
-      if (method === 'GET' && path === '/api/Quota/My?includeUnused=true') return client(method, path);
+      if (method === 'GET' && path === '/api/Quota/My?includeUnused=true') {
+        snapshot = structuredClone(await client(method, path));
+        return snapshot;
+      }
       invariant(!sent && method === 'POST' && path === '/api/PrayerTime/DateRange' && body?.cityId === 9225 && body.startDate === `${window.start}T00:00:00` && body.endDate === `${window.end}T00:00:00`, 'Probe request outside reviewed scope');
+      // Canonical persistence / browser handoff may take minutes. Recheck the
+      // same snapshot immediately before the consuming request; never refetch/retry.
+      await withStage('quota_validation', () => checkRemoteQuota(snapshot, policy, { endpoint: path, officialCityId: city.officialCityId }));
       sent = true;
       return client(method, path, body);
     },
