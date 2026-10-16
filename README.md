@@ -44,4 +44,64 @@ Node.js 24, haricî çalışma zamanı paketi gerekmez.
 
 `node --test sync/*.test.mjs`
 
+## 16 Ekim 2026 kota incelemesi ve Antalya denemesi hazırlığı
+
+Hesap sahibinin 16 Ekim 2026 tarihinde yetkilendirdiği tarayıcıda aldığı
+`Quota/My?includeUnused=true` yanıtı `Default` rolünü gösterdi. Politika bu
+incelemeye göre aşağıdaki 13 grubun tam listesini bekler:
+
+| Dönem | Controller / Result | Hak |
+| --- | --- | --- |
+| Daily | DailyContent / Get | 15 |
+| Daily | Place / City, Country, GetAllCities, GetAllStates, State | Her biri 15 |
+| Daily | Place / CityDetail | 10 |
+| Daily | PrayerTime / PrayerTimeDaily | 15 |
+| Daily | PrayerTime / PrayerTimeMonthly, PrayerTimeWeekly | Her biri 10 |
+| Monthly | PrayerTime / PrayerTimeDateRange | 10 |
+| Yearly | PrayerTime / PrayerTimeEid | 365 |
+| Yearly | PrayerTime / PrayerTimeRamadan | 300 |
+
+Weekly boştu. Kullanımı olan tek grup PrayerTimeDaily idi: toplam 1,
+`cityId:17885` satırında 1 kullanım ve 14 kalan hak. Diğer gruplar sıfır
+kullanımlı ve boş satırlıydı. Boş kullanım satırları sınırsız hak değildir.
+Bu tarihi yanıt bir canlı yetki belgesi değildir; çalıştırma anında yeni
+yanıtın beş dakikalık tazelik denetiminden geçmesi gerekir.
+
+[Resmî belge](https://awqatsalah.diyanet.gov.tr/index.html) DateRange için yer
+başına aylık 10 istek belirtir. Mevcut adaptör ayrıca **toplam kullanımı** da
+sınırlar: toplam 9 ise sonraki isteğe izin verir, toplam 10 ise başka şehrin
+kotası boş görünse bile durur. Bu muhafazakâr kısıt değiştirilmemiştir;
+81 şehrin yenilenmesini aynı dönemde engelleyebilir.
+
+`FORCE_CITY` yalnız yenilemeyi zorlar; eski diğer şehirleri döngüden çıkarmaz.
+Tek şehir denemesi için hazırlanan ayrı modül `sync/antalya-probe.mjs` içindeki
+`runAntalyaProbe({ root, client, persistAccountLedger, now })` fonksiyonudur.
+Modül içe aktarıldığında veya doğrudan çalıştırıldığında API çağrısı yapmaz;
+kimlik doğrulama, canlı CLI ve workflow bağlantısı içermez. Bu aşamada yalnız
+çevrimdışı testler çalıştırılmıştır.
+
+Hazırlanan canlı denemenin kapsamı, ayrıca yetkilendirildiğinde:
+
+- Eşleştirme `config/cities.json` içinden okunur; yalnız `antalya`, resmî şehir
+  `9225`, il `507` kabul edilir. Şehir listesi/`FORCE_CITY` ile genişletilemez.
+- Sabit aralık: **2026-10-16–2026-10-17**, iki gün, İstanbul yerel gece yarısı.
+  En fazla bir `GET /api/Quota/My?includeUnused=true` ve kontroller geçerse
+  en fazla bir `POST /api/PrayerTime/DateRange`; otomatik tekrar yoktur.
+- `state/ledger.json` önceden mevcut olmalıdır. Yerel rezervasyon atomik
+  yazılıp diske senkronize edilir; sonra zorunlu `persistAccountLedger(next)`
+  kanonik hesap sayacını kalıcı olarak kaydetmelidir. Bu işlem başarısızsa
+  DateRange çağrısı yapılmaz. Modül kendisi Git push yapmaz.
+- `state/antalya-probe-2026-10-16.attempt.json` özel oluşturma ile kilitlenip
+  diske senkronize edilir; reddedilen/başarısız/belirsiz denemede bile silinmez.
+  Aynı kalıcı çalışma klasöründe ikinci veya eşzamanlı deneme engellenir.
+  Sayacı veya deneme kaydını sıfırlamayın; geçici/yeni kopyayla tekrar denemeyin.
+- Sonuç yalnız `probe-results/antalya-2026-10-16/v1/prayer-times/antalya.json`
+  dosyasına gider. `public/` takvimlerine dokunulmaz; 2027 kapsamı doğrulanmaz.
+
+Gelecekte canlı çağrı öncesinde güncel kanonik ledger alınmalı, başka indiriciyle
+eşzamanlılık önlenmeli ve mevcut tekrar yapmayan istemci ile kanonik kalıcılık
+bağlantısı açıkça sağlanmalıdır. Bu hazırlık yeni erişim oluşturmaz, üretim
+zamanlamasını değiştirmez veya canlı deneme yetkisi vermez. Farklı tarih aralığı
+ayrı kapsam incelemesi gerektirir.
+
 Veriler Diyanet kaynaklıdır; bu depo Diyanet adına yeniden lisans vermez. Dağıtım kapsamı ilgili kurumun kullanım koşullarına tabidir.
