@@ -3,7 +3,7 @@
 const metadata = new WeakMap();
 const stages = new Set([
   'workflow_guard', 'checkout_guard', 'read_mapping', 'validate_mapping',
-  'validate_force_city', 'read_policy', 'read_ledger', 'authentication',
+  'validate_force_city', 'rollout_guard', 'read_policy', 'read_ledger', 'authentication',
   'initial_quota_request', 'initial_quota_validation', 'refresh',
   'read_calendar', 'reserve_local_quota', 'quota_request', 'quota_validation',
   'persist_ledger', 'calendar_request', 'calendar_validation', 'write_calendar',
